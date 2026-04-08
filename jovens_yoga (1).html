@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jovens Yoga — Live Online Yoga Classes</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sage: #4a7c59;
+    --sage-light: #e8f0ea;
+    --sage-dark: #2d5438;
+    --warm: #c8854a;
+    --warm-light: #fdf3ea;
+    --cream: #faf8f4;
+    --dark: #1a1a18;
+    --muted: #6b6b64;
+    --border: #e2ddd5;
+    --white: #ffffff;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--dark);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,248,244,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--sage-dark);
+    letter-spacing: 0.02em;
+  }
+  .nav-logo span { color: var(--warm); }
+  .nav-cta {
+    background: var(--sage);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 40px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--sage-dark); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    padding-top: 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 0;
+    overflow: hidden;
+  }
+  .hero-content {
+    padding: 6% 5% 6% 8%;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--sage-light);
+    color: var(--sage-dark);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 40px;
+    margin-bottom: 24px;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 5vw, 68px);
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--dark);
+    margin-bottom: 20px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--sage);
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--muted);
+    max-width: 440px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .price-tag {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--sage-dark);
+    margin-bottom: 32px;
+  }
+  .price-tag span {
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--sage);
+    color: white;
+    border: none;
+    padding: 16px 36px;
+    border-radius: 40px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--sage-dark); transform: translateY(-1px); }
+  .btn-secondary {
+    color: var(--sage-dark);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid var(--sage);
+    padding-bottom: 2px;
+  }
+  .hero-image {
+    height: 100vh;
+    background: linear-gradient(135deg, #c8d8c0 0%, #9aba93 50%, #6a9e70 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-image-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    background: linear-gradient(160deg, #d4e8d0 0%, #8fb88a 60%, #4a7c59 100%);
+  }
+  .hero-image-placeholder .pose-icon {
+    font-size: 80px; margin-bottom: 16px; opacity: 0.6;
+  }
+  .hero-image-placeholder p {
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+    font-style: italic;
+  }
+  .hero-trust {
+    display: flex; gap: 32px; margin-top: 40px;
+    flex-wrap: wrap;
+  }
+  .trust-item { font-size: 13px; color: var(--muted); }
+  .trust-item strong { display: block; font-size: 20px; color: var(--dark); font-weight: 500; }
+
+  /* SECTION BASE */
+  section { padding: 80px 8%; }
+  .section-label {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--warm);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4vw, 50px);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--dark);
+    margin-bottom: 16px;
+  }
+  .section-title em { font-style: italic; color: var(--sage); }
+  .section-sub {
+    font-size: 17px; color: var(--muted);
+    max-width: 520px; margin-bottom: 48px;
+    line-height: 1.65;
+  }
+
+  /* USPs */
+  .usps { background: var(--white); }
+  .usp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .usp-item {
+    padding: 36px 28px;
+    background: var(--white);
+    border-right: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .usp-item:last-child { border-right: none; }
+  .usp-item:hover { background: var(--sage-light); }
+  .usp-icon {
+    width: 44px; height: 44px;
+    background: var(--sage-light);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  .usp-title { font-weight: 500; font-size: 17px; margin-bottom: 8px; }
+  .usp-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* HOW IT WORKS */
+  .how { background: var(--cream); }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+  .step { position: relative; }
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 72px;
+    font-weight: 600;
+    color: var(--sage-light);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .step-title { font-weight: 500; font-size: 18px; margin-bottom: 8px; }
+  .step-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* PRICING */
+  .pricing { background: var(--sage-dark); color: white; }
+  .pricing .section-title { color: white; }
+  .pricing .section-sub { color: rgba(255,255,255,0.65); }
+  .pricing .section-label { color: #9dc4a8; }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 760px;
+  }
+  .price-card {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 36px;
+  }
+  .price-card.featured {
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.3);
+  }
+  .price-country {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 12px;
+  }
+  .price-amount {
+    font-family: var(--font-display);
+    font-size: 54px;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .price-period { font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+  .price-features { list-style: none; margin-bottom: 32px; }
+  .price-features li {
+    font-size: 14px; color: rgba(255,255,255,0.8);
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .price-features li::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: #9dc4a8;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .btn-white {
+    background: white;
+    color: var(--sage-dark);
+    border: none;
+    padding: 14px 32px;
+    border-radius: 40px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    width: 100%;
+    text-align: center;
+    display: block;
+    transition: opacity 0.2s;
+  }
+  .btn-white:hover { opacity: 0.9; }
+  .discount-note {
+    margin-top: 16px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    text-align: center;
+  }
+
+  /* TIMESLOTS */
+  .slots { background: var(--white); }
+  .slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+    max-width: 680px;
+  }
+  .slot-chip {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--dark);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .slot-chip:hover, .slot-chip.active {
+    background: var(--sage);
+    border-color: var(--sage);
+    color: white;
+  }
+  .slots-note {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  /* TEACHER */
+  .teacher { background: var(--cream); }
+  .teacher-inner {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  .teacher-image {
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    background: linear-gradient(135deg, #c8d8c0, #6a9e70);
+  }
+  .teacher-image img { width: 100%; height: 100%; object-fit: cover; }
+  .teacher-image-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 400px;
+  }
+  .teacher-image-placeholder .t-icon { font-size: 60px; opacity: 0.5; }
+  .teacher-image-placeholder p { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 8px; font-style: italic; }
+  .teacher-name {
+    font-family: var(--font-display);
+    font-size: 42px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .teacher-cert {
+    font-size: 13px; color: var(--warm);
+    font-weight: 500; letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .teacher-bio { font-size: 16px; color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
+  .teacher-stats {
+    display: flex; gap: 32px; flex-wrap: wrap;
+  }
+  .t-stat strong { display: block; font-size: 28px; font-family: var(--font-display); font-weight: 600; }
+  .t-stat span { font-size: 13px; color: var(--muted); }
+
+  /* FORM SECTION */
+  .trial-form-section {
+    background: var(--warm-light);
+    border-top: 1px solid #e8d5c0;
+  }
+  .form-inner {
+    max-width: 600px;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+  label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dark);
+  }
+  input, select {
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    background: white;
+    color: var(--dark);
+    transition: border-color 0.15s;
+    outline: none;
+    width: 100%;
+  }
+  input:focus, select:focus { border-color: var(--sage); }
+  .country-field {
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 15px;
+    background: #f5f5f0;
+    color: var(--muted);
+  }
+  .submit-btn {
+    background: var(--sage);
+    color: white;
+    border: none;
+    padding: 16px 48px;
+    border-radius: 40px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s, transform 0.1s;
+    width: 100%;
+  }
+  .submit-btn:hover { background: var(--sage-dark); transform: translateY(-1px); }
+  .form-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 12px;
+    text-align: center;
+  }
+  .success-msg {
+    display: none;
+    background: var(--sage-light);
+    border: 1px solid var(--sage);
+    border-radius: 12px;
+    padding: 20px 24px;
+    text-align: center;
+    margin-top: 16px;
+  }
+  .success-msg p { color: var(--sage-dark); font-weight: 500; }
+  .success-msg small { color: var(--muted); font-size: 13px; }
+
+  /* TESTIMONIALS */
+  .testimonials { background: var(--white); }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .testi-card {
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid var(--border);
+  }
+  .testi-text {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--dark);
+    margin-bottom: 20px;
+  }
+  .testi-author { font-size: 13px; font-weight: 500; }
+  .testi-location { font-size: 12px; color: var(--muted); }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    color: rgba(255,255,255,0.5);
+    padding: 32px 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: white;
+    font-weight: 600;
+  }
+  .footer-logo span { color: #9dc4a8; }
+
+  /* STICKY CTA BAR */
+  .sticky-bar {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+    padding: 12px 5%;
+    z-index: 90;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .sticky-bar.show { display: flex; }
+  .sticky-price { font-family: var(--font-display); font-size: 22px; font-weight: 600; }
+  .sticky-price small { font-family: var(--font-body); font-size: 13px; color: var(--muted); font-weight: 400; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-image { height: 50vw; min-height: 280px; }
+    .hero-content { padding: 40px 6%; }
+    .steps { grid-template-columns: 1fr; gap: 24px; }
+    .teacher-inner { grid-template-columns: 1fr; gap: 32px; }
+    .teacher-image { aspect-ratio: 16/9; }
+    section { padding: 60px 6%; }
+    .form-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+  }
+
+  @media (max-width: 600px) {
+    .usp-grid { grid-template-columns: 1fr; }
+    .usp-item { border-right: none; border-bottom: 1px solid var(--border); }
+    .hero-trust { gap: 20px; }
+    .pricing-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Jovens <span>Yoga</span></div>
+  <button onclick="openModal()" class="nav-cta">Book Free Trial</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge" id="hero-badge">Live Online Yoga · India</div>
+    <h1 class="hero-title">
+      Your teacher.<br>
+      Your pace.<br>
+      <em>Every morning.</em>
+    </h1>
+    <p class="hero-sub">Live 55-minute group yoga sessions with a dedicated teacher who knows your name, sees your form, and guides you personally — every single class.</p>
+    <div class="price-tag" id="hero-price">₹1,000 <span>/ month · no contracts</span></div>
+    <div class="hero-actions">
+      <button onclick="openModal()" class="btn-primary">Book Your Free Trial</button>
+      <a href="#how-it-works" class="btn-secondary">See how it works</a>
+    </div>
+    <div class="hero-trust">
+      <div class="trust-item"><strong>Mon–Sat</strong>Live classes daily</div>
+      <div class="trust-item"><strong>55 min</strong>Per session</div>
+      <div class="trust-item" id="trust-slots"><strong>8 slots</strong>Morning & evening</div>
+    </div>
+  </div>
+  <div class="hero-image">
+    <div class="hero-image-placeholder">
+      <div class="pose-icon">🧘</div>
+      <p>Hero image — teacher in Warrior II pose</p>
+    </div>
+  </div>
+</section>
+
+<!-- USPs -->
+<section class="usps">
+  <div class="section-label">Why Jovens Yoga</div>
+  <h2 class="section-title">Not a video. <em>A real teacher.</em></h2>
+  <p class="section-sub">The difference between watching yoga and doing yoga with someone who can actually see you.</p>
+  <div class="usp-grid">
+    <div class="usp-item">
+      <div class="usp-icon">👁</div>
+      <div class="usp-title">AI Pose Correction</div>
+      <div class="usp-desc">The only live yoga platform with real-time posture analysis. Your form is seen and corrected every session.</div>
+    </div>
+    <div class="usp-item">
+      <div class="usp-icon">🧑‍🏫</div>
+      <div class="usp-title">Your assigned teacher</div>
+      <div class="usp-desc">One consistent teacher who remembers your progress and picks up exactly where you left off — every time.</div>
+    </div>
+    <div class="usp-item">
+      <div class="usp-icon">📈</div>
+      <div class="usp-title">Session continuity</div>
+      <div class="usp-desc">Your teacher has a plan for you. Each class builds on the last. You progress, not just practice.</div>
+    </div>
+    <div class="usp-item">
+      <div class="usp-icon">💸</div>
+      <div class="usp-title">App pricing, live teacher</div>
+      <div class="usp-desc" id="usp-price-desc">₹1,000/month for a certified live teacher vs ₹0 for a video that cannot see or correct you.</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how-it-works">
+  <div class="section-label">The process</div>
+  <h2 class="section-title">Simple to start. <em>Easy to stay.</em></h2>
+  <p class="section-sub">Three steps from right now to your first class.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Book your free trial</div>
+      <div class="step-desc">Pick a time slot that suits you. Fill in a short form. Our counsellor confirms your trial class within the hour.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Join the live class</div>
+      <div class="step-desc">Your teacher greets you by name. You practice together with a small group via Zoom. 55 minutes, no equipment needed.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Keep your spot</div>
+      <div class="step-desc">If it feels right, enroll and keep the same teacher and time slot. Cancel anytime — no contracts, no questions.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMESLOTS -->
+<section class="slots" id="timeslots">
+  <div class="section-label">Class schedule</div>
+  <h2 class="section-title">Pick your <em>perfect time.</em></h2>
+  <p class="section-sub" id="slots-sub">Morning and evening slots available across India time.</p>
+  <div class="slots-grid" id="slots-container"></div>
+  <p class="slots-note" id="slots-note">All times in IST · Mon–Sat · 55 minutes per session</p>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-label">Simple pricing</div>
+  <h2 class="section-title">One price. <em>Everything included.</em></h2>
+  <p class="section-sub">No joining fees. No hidden charges. Cancel anytime.</p>
+  <div class="pricing-grid">
+    <div class="price-card featured" id="price-card-main">
+      <div class="price-country" id="price-country-label">India</div>
+      <div class="price-amount" id="price-amount">₹1,000</div>
+      <div class="price-period">per month</div>
+      <ul class="price-features">
+        <li>Live classes Mon–Sat</li>
+        <li>Dedicated assigned teacher</li>
+        <li>55 minutes per session</li>
+        <li>AI pose correction (coming soon)</li>
+        <li>Monthly progress report</li>
+        <li>No contracts — cancel anytime</li>
+      </ul>
+      <button onclick="openModal()" class="btn-white">Start Free Trial</button>
+      <p class="discount-note" id="discount-note">20% off semi-annual · 30% off annual</p>
+    </div>
+  </div>
+</section>
+
+<!-- TEACHER -->
+<section class="teacher">
+  <div class="teacher-inner">
+    <div class="teacher-image">
+      <div class="teacher-image-placeholder">
+        <div class="t-icon">👩</div>
+        <p>Teacher close-up image</p>
+      </div>
+    </div>
+    <div>
+      <div class="section-label">Your teacher</div>
+      <h2 class="teacher-name">Meet your guide.</h2>
+      <div class="teacher-cert">Certified Yoga Instructor · 500 RYT</div>
+      <p class="teacher-bio">Our teachers are certified, experienced, and handpicked for their ability to connect with students personally. They remember your name, your challenges, and your goals. In a class of 50, you will still feel like the only one in the room.</p>
+      <div class="teacher-stats">
+        <div class="t-stat"><strong>500+</strong><span>Hours certified</span></div>
+        <div class="t-stat"><strong>3+</strong><span>Years teaching</span></div>
+        <div class="t-stat"><strong>Mon–Sat</strong><span>Live daily</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-label">Student stories</div>
+  <h2 class="section-title">Real people. <em>Real results.</em></h2>
+  <p class="section-sub">Early students share what makes Jovens Yoga different.</p>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-text">"I've tried three online yoga apps. This is the first time a teacher actually said my name and corrected my posture in real time. Completely different experience."</div>
+      <div class="testi-author" id="t1-author">Priya S.</div>
+      <div class="testi-location" id="t1-loc">Bangalore · Student since March 2026</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-text">"The 6am slot fits perfectly into my morning. My teacher remembers where I struggled last week and we pick up from there. It genuinely feels personal."</div>
+      <div class="testi-author" id="t2-author">Rahul M.</div>
+      <div class="testi-location" id="t2-loc">Chennai · Student since March 2026</div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-text">"I was sceptical about online yoga. After the free trial I enrolled the same day. The teacher energy at 5am is remarkable — it sets up my whole day."</div>
+      <div class="testi-author" id="t3-author">Anitha K.</div>
+      <div class="testi-location" id="t3-loc">Bangalore · Student since April 2026</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section style="background:var(--warm-light);border-top:1px solid #e8d5c0;padding:80px 8%;text-align:center;">
+  <div class="section-label">Free trial</div>
+  <h2 class="section-title" style="margin:0 auto 16px;">Start for <em>free today.</em></h2>
+  <p class="section-sub" style="margin:0 auto 36px;">No payment needed. Pick a time and we confirm your class within the hour.</p>
+  <button onclick="openModal()" class="btn-primary" style="font-size:18px;padding:18px 52px;">Book My Free Trial →</button>
+  <p style="font-size:13px;color:var(--muted);margin-top:16px;">No credit card · No commitment · Cancel anytime</p>
+</section>
+
+<!-- MODAL OVERLAY -->
+<div id="modal-overlay" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:9999;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;">
+  <div id="modal-box" style="background:white;border-radius:24px;padding:40px;max-width:500px;width:100%;position:relative;max-height:90vh;overflow-y:auto;">
+    
+    <button onclick="closeModal()" style="position:absolute;top:16px;right:20px;background:none;border:none;font-size:24px;cursor:pointer;color:var(--muted);line-height:1;">×</button>
+
+    <div id="modal-form-wrap">
+      <div style="margin-bottom:24px;">
+        <div style="font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--warm);margin-bottom:8px;">Free Trial</div>
+        <h3 style="font-family:var(--font-display);font-size:32px;font-weight:600;line-height:1.15;color:var(--dark);margin-bottom:8px;">Book your <em style="font-style:italic;color:var(--sage);">free class</em></h3>
+        <p style="font-size:14px;color:var(--muted);">Our counsellor confirms your slot within 1 hour.</p>
+      </div>
+
+      <form id="modal-form">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <label style="font-size:12px;font-weight:500;color:var(--dark);">First name</label>
+            <input type="text" id="m-firstName" placeholder="Priya" required style="padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;outline:none;font-family:var(--font-body);">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;">
+            <label style="font-size:12px;font-weight:500;color:var(--dark);">Last name</label>
+            <input type="text" id="m-lastName" placeholder="Sharma" required style="padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;outline:none;font-family:var(--font-body);">
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px;">
+          <label style="font-size:12px;font-weight:500;color:var(--dark);">Email address</label>
+          <input type="email" id="m-email" placeholder="priya@email.com" required style="padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;outline:none;font-family:var(--font-body);">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px;">
+          <label style="font-size:12px;font-weight:500;color:var(--dark);">Mobile number</label>
+          <input type="tel" id="m-mobile" placeholder="+91 98765 43210" required style="padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;outline:none;font-family:var(--font-body);">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px;">
+          <label style="font-size:12px;font-weight:500;color:var(--dark);">Preferred time slot</label>
+          <select id="m-slot" required style="padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;outline:none;font-family:var(--font-body);background:white;">
+            <option value="">Select a slot</option>
+          </select>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:24px;">
+          <label style="font-size:12px;font-weight:500;color:var(--dark);">Your country</label>
+          <div id="m-country-display" style="padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;background:#f8f8f5;color:var(--muted);">Detecting...</div>
+        </div>
+        <input type="hidden" id="m-country-hidden">
+        <button type="submit" id="m-submit-btn" style="width:100%;background:var(--sage);color:white;border:none;padding:15px;border-radius:40px;font-family:var(--font-body);font-size:16px;font-weight:500;cursor:pointer;transition:background 0.2s;">Book My Free Trial →</button>
+        <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:12px;">No credit card · No commitment</p>
+      </form>
+    </div>
+
+    <div id="modal-success" style="display:none;text-align:center;padding:20px 0;">
+      <div style="font-size:56px;margin-bottom:16px;">🎉</div>
+      <h3 style="font-family:var(--font-display);font-size:30px;font-weight:600;color:var(--sage-dark);margin-bottom:12px;">You're booked!</h3>
+      <p style="font-size:16px;color:var(--muted);line-height:1.6;">Our counsellor will confirm your trial class via WhatsApp within the hour. Check your phone.</p>
+      <button onclick="closeModal()" style="margin-top:28px;background:var(--sage);color:white;border:none;padding:12px 36px;border-radius:40px;font-family:var(--font-body);font-size:15px;font-weight:500;cursor:pointer;">Done</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Jovens <span>Yoga</span></div>
+  <div>Live yoga classes · India & United States</div>
+  <div>© 2026 Jovens Academy. All rights reserved.</div>
+</footer>
+
+<!-- STICKY BAR -->
+<div class="sticky-bar" id="sticky-bar">
+  <div>
+    <div class="sticky-price" id="sticky-price">₹1,000 <small>/ month</small></div>
+    <div style="font-size:12px;color:var(--muted)">No contracts · Cancel anytime</div>
+  </div>
+  <button onclick="openModal()" class="btn-primary" style="white-space:nowrap">Book Free Trial</button>
+</div>
+
+<script>
+const INDIA_SLOTS = [
+  "5:00 AM IST","6:00 AM IST","7:00 AM IST","8:00 AM IST",
+  "4:00 PM IST","5:00 PM IST","6:00 PM IST","7:00 PM IST"
+];
+const US_SLOTS = [
+  "6:30 AM CST","7:30 AM CST","8:30 AM CST","9:30 AM CST"
+];
+
+let detectedCountry = "India";
+
+function applyCountry(country) {
+  detectedCountry = country;
+  const isUS = country === "US";
+
+  document.getElementById("hero-badge").textContent = isUS
+    ? "Live Online Yoga · United States"
+    : "Live Online Yoga · India";
+
+  document.getElementById("hero-price").innerHTML = isUS
+    ? '$24 <span>/ month · no contracts</span>'
+    : '₹1,000 <span>/ month · no contracts</span>';
+
+  document.getElementById("trust-slots").innerHTML = isUS
+    ? "<strong>4 slots</strong>Morning CST"
+    : "<strong>8 slots</strong>Morning & evening";
+
+  document.getElementById("usp-price-desc").textContent = isUS
+    ? "$24/month for a certified live teacher vs $0 for a video that cannot see or correct you."
+    : "₹1,000/month for a certified live teacher vs ₹0 for a video that cannot see or correct you.";
+
+  document.getElementById("price-country-label").textContent = isUS ? "United States" : "India";
+  document.getElementById("price-amount").textContent = isUS ? "$24" : "₹1,000";
+  document.getElementById("discount-note").textContent = isUS
+    ? "20% off semi-annual · 30% off annual"
+    : "20% off semi-annual · 30% off annual";
+
+  document.getElementById("sticky-price").innerHTML = isUS
+    ? '$24 <small>/ month</small>'
+    : '₹1,000 <small>/ month</small>';
+
+  document.getElementById("slots-sub").textContent = isUS
+    ? "Morning slots available across US Central time."
+    : "Morning and evening slots available across India time.";
+
+  document.getElementById("slots-note").textContent = isUS
+    ? "All times in CST · Mon–Sat · 55 minutes per session"
+    : "All times in IST · Mon–Sat · 55 minutes per session";
+
+  document.getElementById("m-country-display").textContent = isUS ? "🇺🇸 United States" : "🇮🇳 India";
+  document.getElementById("m-country-hidden").value = isUS ? "US" : "India";
+
+  if (isUS) {
+    document.getElementById("t1-author").textContent = "Sarah K.";
+    document.getElementById("t1-loc").textContent = "Dallas, TX · Student since March 2026";
+    document.getElementById("t2-author").textContent = "Michael R.";
+    document.getElementById("t2-loc").textContent = "Austin, TX · Student since March 2026";
+    document.getElementById("t3-author").textContent = "Jennifer L.";
+    document.getElementById("t3-loc").textContent = "Houston, TX · Student since April 2026";
+  }
+
+  const slots = isUS ? US_SLOTS : INDIA_SLOTS;
+  const container = document.getElementById("slots-container");
+  container.innerHTML = "";
+  slots.forEach(s => {
+    const chip = document.createElement("div");
+    chip.className = "slot-chip";
+    chip.textContent = s;
+    chip.onclick = () => {
+      document.querySelectorAll(".slot-chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      document.getElementById("m-slot").value = s;
+      openModal();
+    };
+    container.appendChild(chip);
+  });
+
+  const sel = document.getElementById("m-slot");
+  sel.innerHTML = '<option value="">Select a slot</option>';
+  slots.forEach(s => {
+    const opt = document.createElement("option");
+    opt.value = s; opt.textContent = s;
+    sel.appendChild(opt);
+  });
+}
+
+function openModal() {
+  const overlay = document.getElementById("modal-overlay");
+  overlay.style.display = "flex";
+  overlay.scrollTop = 0;
+  document.body.style.overflow = "hidden";
+  document.getElementById("modal-form-wrap").style.display = "block";
+  document.getElementById("modal-success").style.display = "none";
+  document.getElementById("m-submit-btn").textContent = "Book My Free Trial →";
+  document.getElementById("m-submit-btn").disabled = false;
+}
+
+function closeModal() {
+  document.getElementById("modal-overlay").style.display = "none";
+  document.body.style.overflow = "";
+}
+
+document.getElementById("modal-overlay").addEventListener("click", function(e) {
+  if (e.target === this) closeModal();
+});
+
+async function detectCountry() {
+  const param = new URLSearchParams(window.location.search).get("country");
+  if (param === "US" || param === "India") { applyCountry(param); return; }
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    const data = await res.json();
+    const country = (data.country_code === "US") ? "US" : "India";
+    applyCountry(country);
+  } catch(e) {
+    applyCountry("India");
+  }
+}
+
+detectCountry();
+
+window.addEventListener("scroll", () => {
+  const bar = document.getElementById("sticky-bar");
+  bar.classList.toggle("show", window.scrollY > 600);
+});
+
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbycZgU0WrZXS03oYLh_OCd8wPHkpKDrBoMGgFnt3RiTZdlIZ4ewRH9Y-7ZQNew8ymOXrA/exec";
+
+document.getElementById("modal-form").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById("m-submit-btn");
+  btn.textContent = "Booking...";
+  btn.disabled = true;
+
+  const now = new Date();
+  const istOffset = 5.5 * 60 * 60000;
+  const ist = new Date(now.getTime() + istOffset);
+  const pad = n => String(n).padStart(2,"0");
+  const timestamp = `${pad(ist.getUTCDate())}-${pad(ist.getUTCMonth()+1)}-${ist.getUTCFullYear()} ${pad(ist.getUTCHours())}:${pad(ist.getUTCMinutes())}:${pad(ist.getUTCSeconds())} IST`;
+
+  const payload = {
+    firstName: document.getElementById("m-firstName").value.trim(),
+    lastName: document.getElementById("m-lastName").value.trim(),
+    email: document.getElementById("m-email").value.trim(),
+    mobile: document.getElementById("m-mobile").value.trim(),
+    country: document.getElementById("m-country-hidden").value || detectedCountry,
+    preferredSlot: document.getElementById("m-slot").value,
+    timestamp
+  };
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    document.getElementById("modal-form-wrap").style.display = "none";
+    document.getElementById("modal-success").style.display = "block";
+  } catch(err) {
+    btn.textContent = "Book My Free Trial →";
+    btn.disabled = false;
+    alert("Something went wrong. Please try again.");
+  }
+});
+</script>
+</body>
+</html>
