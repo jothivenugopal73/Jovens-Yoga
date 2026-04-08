@@ -762,7 +762,17 @@
         </div>
         <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px;">
           <label style="font-size:12px;font-weight:500;color:var(--dark);">Mobile number</label>
-          <input type="tel" id="m-mobile" placeholder="+91 98765 43210" required style="padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;outline:none;font-family:var(--font-body);">
+          <div style="display:flex;gap:8px;">
+            <select id="m-countrycode" style="padding:11px 10px;border:1px solid var(--border);border-radius:10px;font-size:15px;outline:none;font-family:var(--font-body);background:white;width:110px;flex-shrink:0;">
+              <option value="+91">🇮🇳 +91</option>
+              <option value="+1">🇺🇸 +1</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+61">🇦🇺 +61</option>
+              <option value="+65">🇸🇬 +65</option>
+              <option value="+971">🇦🇪 +971</option>
+            </select>
+            <input type="tel" id="m-mobile" placeholder="98765 43210" required style="padding:11px 14px;border:1px solid var(--border);border-radius:10px;font-size:15px;outline:none;font-family:var(--font-body);flex:1;" pattern="[0-9\s\-]{6,15}">
+          </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px;">
           <label style="font-size:12px;font-weight:500;color:var(--dark);">Preferred time slot</label>
@@ -857,6 +867,8 @@ function applyCountry(country) {
 
   document.getElementById("m-country-display").textContent = isUS ? "🇺🇸 United States" : "🇮🇳 India";
   document.getElementById("m-country-hidden").value = isUS ? "US" : "India";
+  document.getElementById("m-countrycode").value = isUS ? "+1" : "+91";
+  document.getElementById("m-mobile").placeholder = isUS ? "214 555 9876" : "98765 43210";
 
   if (isUS) {
     document.getElementById("t1-author").textContent = "Sarah K.";
@@ -950,7 +962,7 @@ document.getElementById("modal-form").addEventListener("submit", async function(
     firstName: document.getElementById("m-firstName").value.trim(),
     lastName: document.getElementById("m-lastName").value.trim(),
     email: document.getElementById("m-email").value.trim(),
-    mobile: document.getElementById("m-mobile").value.trim(),
+    mobile: document.getElementById("m-countrycode").value + document.getElementById("m-mobile").value.trim().replace(/\s/g,""),
     country: document.getElementById("m-country-hidden").value || detectedCountry,
     preferredSlot: document.getElementById("m-slot").value,
     timestamp
