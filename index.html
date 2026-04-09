@@ -530,21 +530,25 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
   <div id="modal-box">
     <button onclick="closeModal()" class="modal-close">×</button>
 
-    <!-- TIER TABS -->
-    <div class="modal-tier-tabs">
-      <button class="tier-tab active-std" id="tab-std" onclick="switchTier('std')">Standard — <span id="tab-std-price">$29</span>/mo</button>
-      <button class="tier-tab" id="tab-prem" onclick="switchTier('prem')">⭐ Premium — <span id="tab-prem-price">$39</span>/mo</button>
-    </div>
-
     <div id="modal-form-wrap">
-      <div class="modal-badge badge-sage" id="modal-badge">Free 7-Day Trial · Standard</div>
-      <h3 class="modal-title" id="modal-title">Start your <em>free class</em></h3>
+      <div class="modal-badge badge-sage">Free 7-Day Trial</div>
+      <h3 class="modal-title">Start your <em>free class</em></h3>
       <p class="modal-sub">Our team confirms your slot within 1 hour. Zero charge for 7 days.</p>
 
       <form id="modal-form">
         <div class="form-row">
           <div class="fg"><label>First name</label><input type="text" id="m-first" placeholder="Sarah" required></div>
           <div class="fg"><label>Last name</label><input type="text" id="m-last" placeholder="Johnson" required></div>
+        </div>
+        <!-- TIER SELECTOR -->
+        <div class="fg">
+          <label>Select your plan</label>
+          <div class="session-tabs" style="margin-bottom:4px">
+            <button type="button" class="session-tab active" id="tier-btn-std" onclick="switchTier('std')">Standard — <span id="tab-std-price">$29</span>/mo</button>
+            <button type="button" class="session-tab" id="tier-btn-prem" onclick="switchTier('prem')">⭐ Premium — <span id="tab-prem-price">$39</span>/mo</button>
+          </div>
+          <div id="tier-desc-std" style="font-size:12px;color:var(--muted);padding:8px 12px;background:var(--sage-light);border-radius:8px">One fixed slot · All standard features included</div>
+          <div id="tier-desc-prem" style="font-size:12px;color:var(--gold);padding:8px 12px;background:var(--gold-light);border-radius:8px;display:none">⭐ Full slot flexibility · Bring one permanent guest to every class</div>
         </div>
         <div class="fg"><label>Email address</label><input type="email" id="m-email" placeholder="sarah@email.com" required></div>
         <div class="fg">
@@ -598,7 +602,9 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
         <!-- CARD -->
         <div class="fg">
           <label id="card-label">Card details — no charge for 7 days</label>
-          <div class="card-wrap" id="card-element"></div>
+          <div class="card-wrap" id="card-element" style="min-height:44px;display:flex;align-items:center">
+            <span id="card-placeholder" style="font-size:14px;color:#aaa;font-family:var(--font-b)">Card number · MM/YY · CVC</span>
+          </div>
           <div class="card-err" id="card-error"></div>
           <p class="card-note">Your card will not be charged during the free trial. Cancel anytime before day 7 at no cost.</p>
         </div>
@@ -773,25 +779,19 @@ function switchTier(tier) {
   const isCA = detectedCountry === "CA";
   const p = PRICES[isCA ? "CA" : "US"];
 
-  // Tabs
-  document.getElementById("tab-std").className = "tier-tab" + (tier === "std" ? " active-std" : "");
-  document.getElementById("tab-prem").className = "tier-tab" + (tier === "prem" ? " active-prem" : "");
+  // In-form tier buttons
+  document.getElementById("tier-btn-std").className = "session-tab" + (tier === "std" ? " active" : "");
+  document.getElementById("tier-btn-prem").className = "session-tab" + (tier === "prem" ? " active" : "");
+  document.getElementById("tier-desc-std").style.display = tier === "std" ? "block" : "none";
+  document.getElementById("tier-desc-prem").style.display = tier === "prem" ? "block" : "none";
 
-  // Badge and title
-  const badge = document.getElementById("modal-badge");
-  const title = document.getElementById("modal-title");
+  // Slot sections
   const submitBtn = document.getElementById("m-submit");
   if (tier === "std") {
-    badge.textContent = "Free 7-Day Trial · Standard";
-    badge.className = "modal-badge badge-sage";
-    title.innerHTML = 'Start your <em>free class</em>';
     submitBtn.className = "submit-std";
     document.getElementById("session-pref-wrap").style.display = "block";
     document.getElementById("prem-slot-wrap").style.display = "none";
   } else {
-    badge.textContent = "⭐ Free 7-Day Trial · Premium";
-    badge.className = "modal-badge badge-gold";
-    title.innerHTML = 'Start your <em style="color:var(--gold-mid)">premium trial</em>';
     submitBtn.className = "submit-prem";
     document.getElementById("session-pref-wrap").style.display = "none";
     document.getElementById("prem-slot-wrap").style.display = "block";
@@ -803,13 +803,13 @@ function switchTier(tier) {
 
 // ── OPEN / CLOSE MODAL ──
 function openModal(tier) {
-  switchTier(tier || "std");
   const overlay = document.getElementById("modal-overlay");
   overlay.style.display = "flex";
   overlay.scrollTop = 0;
   document.body.style.overflow = "hidden";
   document.getElementById("modal-form-wrap").style.display = "block";
   document.getElementById("modal-success").style.display = "none";
+  switchTier(tier || "std");
   initStripe();
 }
 
@@ -836,6 +836,8 @@ function initStripe() {
     cardElement = els.create("card", {
       style: { base: { fontSize:"15px", fontFamily:"DM Sans,sans-serif", color:"#1a1a18", "::placeholder":{ color:"#aaa" } } }
     });
+    const ph = document.getElementById("card-placeholder");
+    if (ph) ph.style.display = "none";
     cardElement.mount("#card-element");
   };
   document.head.appendChild(s);
@@ -880,6 +882,17 @@ document.getElementById("modal-form").addEventListener("submit", async function(
     btn.textContent = "Start My Free Trial →";
     btn.disabled = false;
     return;
+  }
+
+  // Validate card field if Stripe not loaded
+  if (!stripe) {
+    const cardPlaceholder = document.getElementById("card-placeholder");
+    if (cardPlaceholder && cardPlaceholder.style.display !== "none") {
+      document.getElementById("card-error").textContent = "Please enter your card details. No charge until day 8.";
+      btn.textContent = "Start My Free Trial →";
+      btn.disabled = false;
+      return;
+    }
   }
 
   const now = new Date();
