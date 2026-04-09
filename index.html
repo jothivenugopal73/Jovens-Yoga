@@ -3,8 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jovens Yoga — Live Online Yoga Classes</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Jovens Yoga — Live Online Yoga Classes | US & Canada</title>
+<meta name="description" content="Live daily yoga with a dedicated teacher who knows your name. Real corrections. Supportive community. From $29/month. Free 7-day trial — no contracts.">
+<meta property="og:title" content="Finally, a yoga class where someone knows your name.">
+<meta property="og:description" content="Live daily yoga with a dedicated teacher. Real corrections. Supportive community. From $29/month. Free 7-day trial.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jovensyoga.netlify.app">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jovens Yoga — Live Online Yoga Classes">
+<meta name="twitter:description" content="Your dedicated teacher. Real corrections. From $29/month. Free 7-day trial.">
+<!-- Preconnect for faster font load -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Non-blocking font load -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -500,8 +513,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
   <h2 class="final-cta-title">Stop starting over.<br><em>Start showing up.</em></h2>
   <p class="final-cta-sub">Your teacher is live tomorrow morning. She'll know your name.</p>
   <div class="final-btns">
-    <button onclick="openModal('std')" class="btn-sage btn-lg">Standard — <span id="final-price-std">$29</span>/month</button>
-    <button onclick="openModal('prem')" class="btn-gold btn-lg">Premium — <span id="final-price-prem">$39</span>/month</button>
+    <button onclick="openModal()" class="btn-sage btn-lg">Start Your Free 7-Day Trial →</button>
   </div>
   <p class="final-note">7 days free · No charge until day 8 · Cancel anytime</p>
 </section>
@@ -515,13 +527,12 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
 
 <!-- STICKY BAR -->
 <div class="sticky-bar" id="sticky-bar">
-  <div class="sticky-prices">
-    <div class="sticky-price">Standard <span id="sticky-std">$29</span> <small>/mo</small></div>
-    <div class="sticky-price" style="color:var(--gold-mid)">Premium <span id="sticky-prem">$39</span> <small>/mo</small></div>
+  <div>
+    <div class="sticky-price">From <span id="sticky-std">$29</span> <small>/mo</small></div>
+    <div style="font-size:12px;color:var(--muted)">Standard · Premium · No contracts</div>
   </div>
   <div class="sticky-btns">
-    <button onclick="openModal('std')" class="btn-sage" style="padding:10px 20px;font-size:14px">Standard Trial</button>
-    <button onclick="openModal('prem')" class="btn-gold" style="padding:10px 20px;font-size:14px">Premium Trial</button>
+    <button onclick="openModal()" class="btn-sage" style="padding:10px 24px;font-size:14px">Start Free Trial</button>
   </div>
 </div>
 
@@ -596,7 +607,8 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
           </div>
         </div>
 
-        <!-- TIER HIDDEN -->
+        <!-- Honeypot — hidden from users, catches bots -->
+        <input type="text" id="m-honeypot" name="website" autocomplete="off" style="display:none;position:absolute;left:-9999px" tabindex="-1">
         <input type="hidden" id="m-tier" value="std">
 
         <!-- CARD -->
@@ -675,11 +687,9 @@ function applyCountry(country, tz) {
 
   // Sticky
   document.getElementById("sticky-std").textContent = p.std;
-  document.getElementById("sticky-prem").textContent = p.prem;
 
   // Final CTA
   document.getElementById("final-price-std").textContent = p.std;
-  document.getElementById("final-price-prem").textContent = p.prem;
 
   // Tab prices
   document.getElementById("tab-std-price").textContent = p.std;
@@ -849,10 +859,15 @@ async function detectCountry() {
   const tz = detectTimezone();
   if (param === "US" || param === "CA") { applyCountry(param, tz); return; }
   try {
-    const res = await fetch("https://ipapi.co/json/");
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000);
+    const res = await fetch("https://ipapi.co/json/", { signal: controller.signal });
+    clearTimeout(timeout);
     const data = await res.json();
     applyCountry(data.country_code === "CA" ? "CA" : "US", tz);
-  } catch(e) { applyCountry("US", tz); }
+  } catch(e) {
+    applyCountry("US", tz); // default to US on timeout or error
+  }
 }
 
 detectCountry();
@@ -871,6 +886,13 @@ document.getElementById("modal-form").addEventListener("submit", async function(
   const btn = document.getElementById("m-submit");
   btn.textContent = "Processing...";
   btn.disabled = true;
+
+  // Honeypot check — if filled it is a bot
+  if (document.getElementById("m-honeypot").value) {
+    document.getElementById("modal-form-wrap").style.display = "none";
+    document.getElementById("modal-success").style.display = "block";
+    return;
+  }
 
   const tier = document.getElementById("m-tier").value;
   const slot = tier === "prem"
