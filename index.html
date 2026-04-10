@@ -64,7 +64,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(250,248,244,
 .hero-trust{display:flex;gap:24px;flex-wrap:wrap;padding-top:28px;border-top:1px solid var(--border)}
 .trust-item{font-size:13px;color:var(--muted)}
 .trust-item strong{display:block;font-size:20px;font-family:var(--font-d);font-weight:600;color:var(--dark)}
-.hero-img{height:100vh;max-height:700px;overflow:hidden}
+.hero-img{height:100vh;max-height:600px;overflow:hidden}
 .hero-img .img-ph{height:100%;background:linear-gradient(160deg,#d4e8d0 0%,#8fb88a 50%,#4a7c59 100%)}
 
 /* SECTIONS */
@@ -856,6 +856,22 @@ function renderModalSlots(slots) {
   });
 }
 
+function renderPremiumSlots() {
+  const slots = SLOTS[detectedTZ] || SLOTS[detectTimezone()] || SLOTS.CST;
+  ["morning","evening"].forEach(s => {
+    const el = document.getElementById("prem-"+s+"-slots");
+    if (!el) return;
+    el.innerHTML = "";
+    slots[s].forEach(t => {
+      const c = document.createElement("div");
+      c.className = "modal-slot";
+      c.textContent = t;
+      c.onclick = () => { selectPremSlot(t); };
+      el.appendChild(c);
+    });
+  });
+}
+
 function selectSlot(t) {
   selectedSlot = t;
   document.getElementById("m-slot").value = t;
@@ -905,21 +921,8 @@ function switchTier(tier) {
     submitBtn.className = "submit-prem";
     document.getElementById("session-pref-wrap").style.display = "none";
     document.getElementById("prem-slot-wrap").style.display = "block";
-    // Force fresh render AFTER div is visible
-    setTimeout(() => {
-      const currentSlots = SLOTS[detectedTZ] || SLOTS[detectTimezone()] || SLOTS.CST;
-      ["morning","evening"].forEach(s => {
-        const el = document.getElementById("prem-"+s+"-slots");
-        el.innerHTML = "";
-        currentSlots[s].forEach(t => {
-          const c = document.createElement("div");
-          c.className = "modal-slot";
-          c.textContent = t;
-          c.onclick = () => { selectPremSlot(t); };
-          el.appendChild(c);
-        });
-      });
-    }, 0);
+    // Render premium slots with small delay to ensure DOM is visible
+    setTimeout(() => { renderPremiumSlots(); }, 50);
   }
   document.getElementById("modal-price-foot").textContent = p[tier] + "/month";
   submitBtn.textContent = "Reserve My Free Trial →";
@@ -947,6 +950,7 @@ function openModal(tier) {
   // Re-render slots with current timezone
   const currentSlots = SLOTS[detectedTZ] || SLOTS[detectTimezone()] || SLOTS.CST;
   renderModalSlots(currentSlots);
+  renderPremiumSlots();
 
   initStripe();
 }
