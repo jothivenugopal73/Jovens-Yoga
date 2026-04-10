@@ -706,6 +706,10 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
             <div class="card-wrap" id="card-element" style="min-height:44px;display:none;align-items:center">
               <span id="card-placeholder" style="font-size:14px;color:#aaa;font-family:var(--font-b)">Card number · MM/YY · CVC</span>
             </div>
+            <!-- Loading indicator while Stripe loads -->
+            <div id="card-loading" style="display:none;padding:11px 13px;border:1px solid var(--border);border-radius:10px;font-size:14px;color:var(--muted);background:#f8f8f5">
+              ⏳ Loading secure card field...
+            </div>
             <!-- Fallback inputs — shown until Stripe loads -->
             <div id="card-fallback" style="display:flex;gap:8px;flex-wrap:wrap">
               <input type="text" id="card-number-fb" placeholder="Card number" maxlength="19" style="flex:2;min-width:160px;padding:10px 13px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:var(--font-b);outline:none" oninput="formatCardNumber(this)">
@@ -901,6 +905,9 @@ function switchTier(tier) {
     submitBtn.className = "submit-prem";
     document.getElementById("session-pref-wrap").style.display = "none";
     document.getElementById("prem-slot-wrap").style.display = "block";
+    // Re-render premium slots to make sure chips are populated
+    const currentSlots = SLOTS[detectedTZ] || SLOTS[detectTimezone()] || SLOTS.CST;
+    renderModalSlots(currentSlots);
   }
   document.getElementById("modal-price-foot").textContent = p[tier] + "/month";
   submitBtn.textContent = "Reserve My Free Trial →";
@@ -947,6 +954,10 @@ let stripe = null, cardElement = null;
 
 function initStripe() {
   if (stripe) return; // already loaded
+  // Show loading, hide fallback
+  document.getElementById("card-fallback").style.display = "none";
+  document.getElementById("card-loading").style.display = "block";
+
   const s = document.createElement("script");
   s.src = "https://js.stripe.com/v3/";
   s.onload = () => {
@@ -956,12 +967,17 @@ function initStripe() {
       disableLink: true,
       style: { base: { fontSize:"15px", fontFamily:"DM Sans,sans-serif", color:"#1a1a18", "::placeholder":{ color:"#aaa" } } }
     });
-    // Hide fallback, show Stripe element
-    document.getElementById("card-fallback").style.display = "none";
+    // Hide loading, show Stripe element
+    document.getElementById("card-loading").style.display = "none";
     document.getElementById("card-element").style.display = "block";
     const ph = document.getElementById("card-placeholder");
     if (ph) ph.style.display = "none";
     cardElement.mount("#card-element");
+  };
+  s.onerror = () => {
+    // Stripe failed to load — show fallback
+    document.getElementById("card-loading").style.display = "none";
+    document.getElementById("card-fallback").style.display = "flex";
   };
   document.head.appendChild(s);
 }
