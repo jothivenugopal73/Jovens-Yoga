@@ -614,8 +614,16 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
         <!-- CARD -->
         <div class="fg">
           <label id="card-label">Card details — no charge for 7 days</label>
-          <div class="card-wrap" id="card-element" style="min-height:44px;display:flex;align-items:center">
-            <span id="card-placeholder" style="font-size:14px;color:#aaa;font-family:var(--font-b)">Card number · MM/YY · CVC</span>
+          <div id="card-element-wrap">
+            <div class="card-wrap" id="card-element" style="min-height:44px;display:flex;align-items:center">
+              <span id="card-placeholder" style="font-size:14px;color:#aaa;font-family:var(--font-b)">Card number · MM/YY · CVC</span>
+            </div>
+            <!-- Fallback inputs shown when Stripe not loaded -->
+            <div id="card-fallback" style="display:flex;gap:8px;flex-wrap:wrap">
+              <input type="text" id="card-number-fb" placeholder="Card number" maxlength="19" style="flex:2;min-width:160px;padding:10px 13px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:var(--font-b);outline:none" oninput="formatCardNumber(this)">
+              <input type="text" id="card-expiry-fb" placeholder="MM/YY" maxlength="5" style="flex:1;min-width:70px;padding:10px 13px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:var(--font-b);outline:none" oninput="formatExpiry(this)">
+              <input type="text" id="card-cvc-fb" placeholder="CVC" maxlength="3" style="flex:1;min-width:60px;padding:10px 13px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:var(--font-b);outline:none">
+            </div>
           </div>
           <div class="card-err" id="card-error"></div>
           <p class="card-note">Your card will not be charged during the free trial. Cancel anytime before day 7 at no cost.</p>
@@ -859,12 +867,20 @@ function initStripe() {
     cardElement = els.create("card", {
       style: { base: { fontSize:"15px", fontFamily:"DM Sans,sans-serif", color:"#1a1a18", "::placeholder":{ color:"#aaa" } } }
     });
+    // Hide fallback, show Stripe element
+    document.getElementById("card-fallback").style.display = "none";
+    document.getElementById("card-element").style.display = "flex";
     const ph = document.getElementById("card-placeholder");
     if (ph) ph.style.display = "none";
     cardElement.mount("#card-element");
   };
   document.head.appendChild(s);
 }
+
+// Show fallback inputs by default, hide Stripe wrapper
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById("card-element").style.display = "none";
+});
 
 // ── GEO DETECT ──
 async function detectCountry() {
@@ -881,6 +897,19 @@ async function detectCountry() {
   } catch(e) {
     applyCountry("US", tz); // default to US on timeout or error
   }
+}
+
+// Card number formatting — adds spaces every 4 digits
+function formatCardNumber(el) {
+  let v = el.value.replace(/\D/g, "").substring(0, 16);
+  el.value = v.match(/.{1,4}/g)?.join(" ") || v;
+}
+
+// Expiry formatting — adds slash after MM
+function formatExpiry(el) {
+  let v = el.value.replace(/\D/g, "").substring(0, 4);
+  if (v.length >= 3) v = v.substring(0,2) + "/" + v.substring(2);
+  el.value = v;
 }
 
 detectCountry();
@@ -919,15 +948,18 @@ document.getElementById("modal-form").addEventListener("submit", async function(
     return;
   }
 
-  // Validate card field if Stripe not loaded
+  // Validate card — fallback fields when Stripe not loaded
   if (!stripe) {
-    const cardPlaceholder = document.getElementById("card-placeholder");
-    if (cardPlaceholder && cardPlaceholder.style.display !== "none") {
-      document.getElementById("card-error").textContent = "Please enter your card details. No charge until day 8.";
+    const num = document.getElementById("card-number-fb").value.replace(/\s/g,"");
+    const exp = document.getElementById("card-expiry-fb").value;
+    const cvc = document.getElementById("card-cvc-fb").value;
+    if (num.length < 13 || exp.length < 5 || cvc.length < 3) {
+      document.getElementById("card-error").textContent = "Please enter your full card details. No charge until day 8.";
       btn.textContent = "Start My Free Trial →";
       btn.disabled = false;
       return;
     }
+    document.getElementById("card-error").textContent = "";
   }
 
   const now = new Date();
