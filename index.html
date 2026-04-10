@@ -905,9 +905,21 @@ function switchTier(tier) {
     submitBtn.className = "submit-prem";
     document.getElementById("session-pref-wrap").style.display = "none";
     document.getElementById("prem-slot-wrap").style.display = "block";
-    // Re-render premium slots to make sure chips are populated
-    const currentSlots = SLOTS[detectedTZ] || SLOTS[detectTimezone()] || SLOTS.CST;
-    renderModalSlots(currentSlots);
+    // Force fresh render AFTER div is visible
+    setTimeout(() => {
+      const currentSlots = SLOTS[detectedTZ] || SLOTS[detectTimezone()] || SLOTS.CST;
+      ["morning","evening"].forEach(s => {
+        const el = document.getElementById("prem-"+s+"-slots");
+        el.innerHTML = "";
+        currentSlots[s].forEach(t => {
+          const c = document.createElement("div");
+          c.className = "modal-slot";
+          c.textContent = t;
+          c.onclick = () => { selectPremSlot(t); };
+          el.appendChild(c);
+        });
+      });
+    }, 0);
   }
   document.getElementById("modal-price-foot").textContent = p[tier] + "/month";
   submitBtn.textContent = "Reserve My Free Trial →";
@@ -1096,6 +1108,33 @@ document.getElementById("modal-form").addEventListener("submit", async function(
         return;
       }
       payload.stripePaymentMethodId = paymentMethod.id;
+      payload.stripeCardLast4 = paymentMethod.card ? paymentMethod.card.last4 : "";
+      payload.stripeCardBrand = paymentMethod.card ? paymentMethod.card.brand : "";
+
+      // Create Stripe Customer via Netlify Function
+      try {
+        const customerRes = await fetch('/.netlify/functions/create-customer', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            paymentMethodId: paymentMethod.id,
+            firstName: payload.firstName,
+            lastName: payload.lastName,
+            email: payload.email,
+            tier: payload.tier,
+            preferredSlot: payload.preferredSlot,
+            timezone: payload.timezone,
+            country: payload.country
+          })
+        });
+        const customerData = await customerRes.json();
+        if (customerData.customerId) {
+          payload.stripeCustomerId = customerData.customerId;
+        }
+      } catch(fnErr) {
+        // Customer creation failed — still proceed with form submission
+        console.error('Customer creation error:', fnErr);
+      }
     }
 
     await fetch(SHEET_URL, {
