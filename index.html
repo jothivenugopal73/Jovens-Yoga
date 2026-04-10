@@ -52,7 +52,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(250,248,244,
 .img-ph .dsc{font-size:10px;color:rgba(255,255,255,.65);font-style:italic;max-width:200px;line-height:1.4}
 
 /* HERO — SPLIT */
-.hero{padding-top:64px;display:grid;grid-template-columns:1fr 1fr;align-items:stretch;min-height:auto}
+.hero{padding-top:64px;display:grid;grid-template-columns:1fr 1fr;align-items:stretch}
 .hero-content{padding:60px 6% 60px 8%}
 .hero-badge{display:inline-block;background:var(--sage-light);color:var(--sage-dark);font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:6px 16px;border-radius:40px;margin-bottom:28px}
 .hero-title{font-family:var(--font-d);font-size:clamp(36px,4vw,58px);font-weight:600;line-height:1.1;color:var(--dark);margin-bottom:20px}
@@ -64,8 +64,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(250,248,244,
 .hero-trust{display:flex;gap:24px;flex-wrap:wrap;padding-top:28px;border-top:1px solid var(--border)}
 .trust-item{font-size:13px;color:var(--muted)}
 .trust-item strong{display:block;font-size:20px;font-family:var(--font-d);font-weight:600;color:var(--dark)}
-.hero-img{min-height:520px;max-height:680px;overflow:hidden;align-self:stretch}
-.hero-img .img-ph{height:100%;min-height:520px;background:linear-gradient(160deg,#d4e8d0 0%,#8fb88a 50%,#4a7c59 100%);position:relative}
+.hero-img{overflow:hidden;align-self:stretch;position:relative}
+.hero-img .img-ph{position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(160deg,#d4e8d0 0%,#8fb88a 50%,#4a7c59 100%)}
 
 /* SECTIONS */
 section{padding:80px 8%}
@@ -238,7 +238,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
 /* RESPONSIVE */
 @media(max-width:900px){
   .hero{grid-template-columns:1fr}
-  .hero-img{height:50vw;min-height:220px;max-height:320px}
+  .hero-img{height:56vw;min-height:200px;max-height:320px;position:relative}
   .hero-content{padding:36px 6%}
   .hero-sub{max-width:100%;font-size:16px}
   .steps{grid-template-columns:1fr 1fr;gap:20px}
