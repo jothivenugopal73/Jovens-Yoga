@@ -895,9 +895,10 @@ function initStripe() {
   const s = document.createElement("script");
   s.src = "https://js.stripe.com/v3/";
   s.onload = () => {
-    stripe = Stripe(STRIPE_KEY);
-    const els = stripe.elements();
+    stripe = Stripe(STRIPE_KEY, { betas: [] });
+    const els = stripe.elements({ locale: 'en', loader: 'never' });
     cardElement = els.create("card", {
+      disableLink: true,
       style: { base: { fontSize:"15px", fontFamily:"DM Sans,sans-serif", color:"#1a1a18", "::placeholder":{ color:"#aaa" } } }
     });
     // Hide fallback, show Stripe element
