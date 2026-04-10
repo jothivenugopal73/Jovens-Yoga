@@ -565,7 +565,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
         <div class="fg">
           <label>Mobile number</label>
           <div class="phone-row">
-            <select id="m-code"><option value="+1">🇺🇸 +1</option><option value="+1-CA">🇨🇦 +1</option></select>
+            <select id="m-code"><option value="+1" selected>🇺🇸 US +1</option><option value="+1-CA">🇨🇦 CA +1</option></select>
             <input type="tel" id="m-mobile" placeholder="214 555 9876" required>
           </div>
         </div>
@@ -650,7 +650,7 @@ const PRICES = {
 };
 
 let detectedCountry = "US";
-let detectedTZ = "CST";
+let detectedTZ = detectTimezone(); // set immediately from browser — no waiting for API
 let currentTier = "std";
 let currentSession = "morning";
 let selectedSlot = "";
@@ -820,6 +820,19 @@ function openModal(tier) {
   document.getElementById("modal-form-wrap").style.display = "block";
   document.getElementById("modal-success").style.display = "none";
   switchTier(tier || "std");
+
+  // Re-apply detected values every time modal opens
+  const isCA = detectedCountry === "CA";
+  document.getElementById("m-country-show").textContent = isCA ? "🇨🇦 Canada" : "🇺🇸 United States";
+  document.getElementById("m-country").value = isCA ? "CA" : "US";
+  document.getElementById("m-tz-show").textContent = detectedTZ || detectTimezone();
+  document.getElementById("m-tz").value = detectedTZ || detectTimezone();
+  document.getElementById("m-code").value = "+1";
+
+  // Re-render slots with current timezone
+  const currentSlots = SLOTS[detectedTZ] || SLOTS[detectTimezone()] || SLOTS.CST;
+  renderModalSlots(currentSlots);
+
   initStripe();
 }
 
