@@ -647,14 +647,15 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
         <div class="fg">
           <label id="card-label">Card details — no charge for 7 days</label>
           <div id="card-element-wrap">
-            <div class="card-wrap" id="card-element" style="min-height:44px;display:flex;align-items:center">
+            <!-- Stripe mounts here when key is live -->
+            <div class="card-wrap" id="card-element" style="min-height:44px;display:none;align-items:center">
               <span id="card-placeholder" style="font-size:14px;color:#aaa;font-family:var(--font-b)">Card number · MM/YY · CVC</span>
             </div>
-            <!-- Fallback inputs shown when Stripe not loaded -->
+            <!-- Fallback inputs — shown until Stripe loads -->
             <div id="card-fallback" style="display:flex;gap:8px;flex-wrap:wrap">
               <input type="text" id="card-number-fb" placeholder="Card number" maxlength="19" style="flex:2;min-width:160px;padding:10px 13px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:var(--font-b);outline:none" oninput="formatCardNumber(this)">
               <input type="text" id="card-expiry-fb" placeholder="MM/YY" maxlength="5" style="flex:1;min-width:70px;padding:10px 13px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:var(--font-b);outline:none" oninput="formatExpiry(this)">
-              <input type="text" id="card-cvc-fb" placeholder="CVC" maxlength="3" style="flex:1;min-width:60px;padding:10px 13px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:var(--font-b);outline:none">
+              <input type="text" id="card-cvc-fb" placeholder="CVV" maxlength="4" style="flex:1;min-width:60px;padding:10px 13px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:var(--font-b);outline:none">
             </div>
           </div>
           <div class="card-err" id="card-error"></div>
@@ -662,7 +663,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
         </div>
 
         <button type="submit" class="submit-std" id="m-submit">Reserve My Free Trial →</button>
-        <p class="form-foot">7 days free · Then <span id="modal-price-foot">$29</span>/month · Cancel anytime</p>
+        <p class="form-foot">7 days free · Then <span id="modal-price-foot">$29/month</span> · Cancel anytime</p>
       </form>
     </div>
 
@@ -734,7 +735,7 @@ function applyCountry(country, tz) {
   // Tab prices
   document.getElementById("tab-std-price").textContent = p.std;
   document.getElementById("tab-prem-price").textContent = p.prem;
-  document.getElementById("modal-price-foot").textContent = p[currentTier];
+  document.getElementById("modal-price-foot").textContent = p[currentTier] + "/month";
 
   // Country / TZ in modal
   document.getElementById("m-country-show").textContent = isCA ? "🇨🇦 Canada" : "🇺🇸 United States";
@@ -890,7 +891,7 @@ const STRIPE_KEY = "pk_test_51PfSZrRxgrePX6zqDdmKHb12znjsBShLoBRSDYU7O7F4XYimaxn
 let stripe = null, cardElement = null;
 
 function initStripe() {
-  if (STRIPE_KEY === "YOUR_STRIPE_PUBLISHABLE_KEY_HERE" || stripe) return;
+  if (stripe) return; // already loaded
   const s = document.createElement("script");
   s.src = "https://js.stripe.com/v3/";
   s.onload = () => {
@@ -901,18 +902,13 @@ function initStripe() {
     });
     // Hide fallback, show Stripe element
     document.getElementById("card-fallback").style.display = "none";
-    document.getElementById("card-element").style.display = "flex";
+    document.getElementById("card-element").style.display = "block";
     const ph = document.getElementById("card-placeholder");
     if (ph) ph.style.display = "none";
     cardElement.mount("#card-element");
   };
   document.head.appendChild(s);
 }
-
-// Show fallback inputs by default, hide Stripe wrapper
-document.addEventListener("DOMContentLoaded", function() {
-  document.getElementById("card-element").style.display = "none";
-});
 
 // ── GEO DETECT ──
 async function detectCountry() {
