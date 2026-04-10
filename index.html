@@ -490,9 +490,27 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
     </div>
   </div>
   <div class="tz-label" id="tz-label">Detecting your timezone...</div>
-  <div class="slot-group-title">Morning slots</div>
-  <div class="slots-row" id="page-morning-slots"></div>
-  <div class="slot-group-title">Evening slots</div>
+  <div style="display:flex;gap:12px;margin-bottom:20px;margin-top:8px">
+    <div style="display:flex;align-items:center;gap:8px;background:var(--sage-light);border-radius:40px;padding:10px 20px">
+      <span style="font-size:18px">🌅</span>
+      <span style="font-size:14px;font-weight:500;color:var(--sage-dark)">Morning slots</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;background:var(--cream);border:1px solid var(--border);border-radius:40px;padding:10px 20px">
+      <span style="font-size:18px">🌙</span>
+      <span style="font-size:14px;font-weight:500;color:var(--muted)">Evening slots</span>
+    </div>
+  </div>
+  <div class="slots-row" id="page-morning-slots" style="margin-bottom:24px"></div>
+  <div style="display:flex;gap:12px;margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:8px;background:var(--cream);border:1px solid var(--border);border-radius:40px;padding:10px 20px">
+      <span style="font-size:18px">🌅</span>
+      <span style="font-size:14px;font-weight:500;color:var(--muted)">Morning slots</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;background:var(--sage-light);border-radius:40px;padding:10px 20px">
+      <span style="font-size:18px">🌙</span>
+      <span style="font-size:14px;font-weight:500;color:var(--sage-dark)">Evening slots</span>
+    </div>
+  </div>
   <div class="slots-row" id="page-evening-slots"></div>
   <p style="font-size:13px;color:var(--muted);margin-top:16px" id="slots-note">All times in your local timezone · Mon–Sat · 60 minutes per session</p>
 </section>
@@ -631,9 +649,9 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
         <div id="prem-slot-wrap" style="display:none">
           <div class="fg">
             <label>Your preferred slot — choose any (you can attend any slot on any day)</label>
-            <div class="slot-group-title" style="margin-top:8px">Morning slots</div>
+            <div style="display:flex;align-items:center;gap:8px;margin:12px 0 8px"><span style="font-size:16px">🌅</span><span style="font-size:13px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.05em">Morning slots</span></div>
             <div class="modal-slots-row" id="prem-morning-slots"></div>
-            <div class="slot-group-title">Evening slots</div>
+            <div style="display:flex;align-items:center;gap:8px;margin:16px 0 8px"><span style="font-size:16px">🌙</span><span style="font-size:13px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.05em">Evening slots</span></div>
             <div class="modal-slots-row" id="prem-evening-slots"></div>
             <input type="hidden" id="m-prem-slot">
           </div>
