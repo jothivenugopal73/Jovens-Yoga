@@ -723,8 +723,9 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
 <div class="sticky-bar" id="sticky-bar">
   <div>
     <div class="sticky-price">From <span id="sticky-std">$29</span> <small>/mo</small></div>
-    <div style="font-size:12px;color:var(--muted)">Standard · Premium · No contracts</div>
+    <div style="font-size:11px;color:var(--muted)">Standard · Premium · No contracts</div>
   </div>
+  <div style="font-size:12px;color:var(--muted);font-style:italic;display:none;" class="sticky-tagline">Live yoga. Real teacher. Your name, remembered.</div>
   <div class="sticky-btns">
     <button onclick="openModal()" class="btn-sage" style="padding:10px 24px;font-size:14px">Reserve Free Trial</button>
   </div>
@@ -1127,16 +1128,30 @@ function initStripe() {
 async function detectCountry() {
   const param = new URLSearchParams(window.location.search).get("country");
   const tz = detectTimezone();
-  if (param === "US" || param === "CA") { applyCountry(param, tz); return; }
+
+  // Apply immediately with browser timezone so slots always render
+  if (param === "US" || param === "CA") {
+    applyCountry(param, tz);
+    return;
+  }
+
+  // Apply US default immediately so page never shows "Detecting..."
+  applyCountry("US", tz);
+
+  // Then try to get real country from ipapi and update if needed
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 3000);
     const res = await fetch("https://ipapi.co/json/", { signal: controller.signal });
     clearTimeout(timeout);
     const data = await res.json();
-    applyCountry(data.country_code === "CA" ? "CA" : "US", tz);
+    const country = data.country_code === "CA" ? "CA" : "US";
+    // Only re-apply if country changed (avoid flickering)
+    if (country !== detectedCountry) {
+      applyCountry(country, tz);
+    }
   } catch(e) {
-    applyCountry("US", tz); // default to US on timeout or error
+    // Already applied US default above — nothing to do
   }
 }
 
