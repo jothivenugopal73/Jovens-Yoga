@@ -1,0 +1,8 @@
+image_01.png  — Logo
+image_02.jpg  — Hero (teacher on Zoom)
+image_03.jpg  — Difference section
+image_04.jpg  — Features banner
+image_05.jpg  — WhatsApp community
+image_06.jpg  — Progress report mockup
+image_07.jpg  — Teacher headshot (portrait)
+image_08.jpg  — Schedule section

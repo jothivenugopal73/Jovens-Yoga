@@ -32,7 +32,7 @@ html{scroll-behavior:smooth}
 body{font-family:var(--font-b);background:var(--cream);color:var(--dark);font-size:16px;line-height:1.7;max-width:100%;overflow-x:hidden}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(250,248,244,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(250,248,244,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);padding:0 5%;height:64px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
 .nav-logo{font-family:var(--font-d);font-size:22px;font-weight:600;color:var(--sage-dark)}
 .nav-logo span{color:var(--warm)}
 .nav-cta{background:#2F5D50;color:#fff;border:none;padding:10px 24px;border-radius:40px;font-family:var(--font-b);font-size:14px;font-weight:500;cursor:pointer;transition:background .2s}
@@ -193,7 +193,8 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
 .footer-logo span{color:#9dc4a8}
 
 /* STICKY BAR */
-.sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);padding:12px 5%;z-index:180;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.sticky-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);padding:12px 5%;z-index:180;align-items:center;justify-content:space-between;gap:12px;}
+.sticky-tagline{font-size:13px;color:var(--sage);font-style:italic;font-weight:500;letter-spacing:.01em;}
 .sticky-bar.show{display:flex}
 .sticky-prices{display:flex;gap:20px}
 .sticky-price{font-family:var(--font-d);font-size:18px;font-weight:600}
@@ -250,69 +251,98 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
 /* RESPONSIVE */
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;height:auto}
-  .hero-img{height:52vw;min-height:200px;max-height:300px}
+  .hero-img{height:52vw;min-height:200px;max-height:320px}
   .hero-content{padding:36px 6%}
-  .hero-sub{max-width:100%;font-size:16px}
+  .hero-sub{max-width:100%}
   .steps{grid-template-columns:1fr 1fr;gap:20px}
   .diff-grid{grid-template-columns:1fr}
-  .diff-img{aspect-ratio:16/9}
-  .diff-img .img-ph{min-height:200px}
+  .diff-img{height:320px}
   .teacher-inner{grid-template-columns:1fr;gap:28px}
-  .teacher-img{aspect-ratio:16/9}
-  .teacher-img .img-ph{min-height:200px}
-  .pricing-grid{grid-template-columns:1fr;max-width:100%}
+  .teacher-img{height:320px}
+  .pricing-grid{grid-template-columns:1fr;max-width:480px;margin:0 auto}
   section{padding:60px 6%}
   .problem{padding:60px 6%}
   .pricing{padding:60px 6%}
   .final-cta{padding:60px 6%}
+  .faq{padding:60px 6%}
   .diff-sec{padding:60px 6% !important}
   .who-sec{padding:60px 6% !important}
   .how-after{flex-direction:column;text-align:center}
   .final-btns{flex-direction:column;align-items:center}
   .who-grid{grid-template-columns:1fr !important}
   #modal-box{padding:28px}
+  .sticky-tagline{display:none}
 }
 @media(max-width:600px){
-  .hero-img{height:52vw;min-height:180px;max-height:260px}
+  /* Nav */
+  #nav-location{display:none}
+  .nav-logo{font-size:18px}
+  .nav-cta{padding:8px 16px;font-size:13px}
+  /* Hero */
+  .hero-img{height:55vw;min-height:180px;max-height:260px}
+  .hero-content{padding:28px 5%}
+  .hero-cta-wrap{width:100%}
+  .btn-sage.btn-lg{width:100%;text-align:center;padding:16px 24px}
+  .hero-trust{gap:10px}
+  .trust-item{font-size:12px}
+  .trust-item strong{font-size:17px}
+  /* Steps */
   .steps{grid-template-columns:1fr}
+  /* Forms */
   .form-row{grid-template-columns:1fr}
   .form-row3{grid-template-columns:1fr}
-  .hero-trust{gap:14px}
+  /* Teacher */
+  .teacher-img{height:220px}
   .teacher-stats{gap:16px}
+  /* Slots */
   .slot-chip{padding:8px 14px;font-size:13px}
   .slot-img-wrap{display:none}
-  #modal-box{padding:20px;border-radius:16px}
+  /* Modal */
+  #modal-overlay{padding:0}
+  #modal-box{padding:20px;border-radius:16px 16px 0 0;margin:auto 0 0;max-height:92vh}
   .modal-title{font-size:24px}
+  .session-tab{font-size:12px;padding:8px 4px}
+  .modal-sub{font-size:13px}
+  /* Problem callout */
+  .prob-callout{padding:16px 20px}
   .prob-closer{font-size:18px;max-width:100%}
+  /* Proof */
   .proof-ph{padding:20px}
   .proof-ph p{font-size:18px}
+  /* Features */
   .feat-grid{grid-template-columns:1fr}
+  /* Pricing */
   .price-card{padding:20px}
+  .pricing-grid{max-width:100%}
+  /* Sections */
   section{padding:48px 5%}
   .problem{padding:48px 5%}
   .pricing{padding:48px 5%}
   .final-cta{padding:48px 5%}
+  .faq{padding:48px 5%}
   .diff-sec{padding:48px 5% !important}
   .who-sec{padding:48px 5% !important}
   .how-after{padding:20px}
-  .pricing-grid{max-width:100%}
+  /* Buttons */
   .btn-lg{padding:14px 28px;font-size:16px;width:100%;text-align:center}
-  .who-grid{grid-template-columns:1fr !important;gap:24px !important}
+  .final-btns .btn-sage{width:100%}
+  /* Who */
+  .who-grid{grid-template-columns:1fr !important;gap:20px !important}
+  /* Footer */
   footer{flex-direction:column;text-align:center;gap:8px;padding:24px 5%}
-  .hero-cta-wrap{width:100%}
-  .btn-sage.btn-lg{width:100%;text-align:center;padding:16px 24px}
-  .nav-logo{font-size:18px}
-  .nav-cta{padding:8px 16px;font-size:13px}
-  .modal-sub{font-size:13px}
-  .session-tab{font-size:12px;padding:8px 6px}
+  /* Sticky */
+  .sticky-bar{padding:10px 5%;gap:10px}
+  .sticky-price{font-size:15px}
+  .sticky-bar .btn-sage{padding:9px 18px;font-size:13px}
 }
 @media(max-width:380px){
-  .hero-title{font-size:32px}
-  .trust-item strong{font-size:17px}
-  .modal-title{font-size:21px}
-  .slot-chip{padding:7px 11px;font-size:12px}
-  .price-amount{font-size:40px}
+  .hero-title{font-size:26px}
+  .trust-item strong{font-size:15px}
+  .modal-title{font-size:20px}
+  .slot-chip{padding:7px 10px;font-size:12px}
+  .price-amount{font-size:38px}
   #modal-box{padding:16px}
+  .sticky-bar .btn-sage{padding:8px 12px;font-size:12px}
 }
 </style>
 </head>
@@ -347,7 +377,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
     </div>
   </div>
     <div class="hero-img" >
-    <img src="images/image_02.jpg" alt="Jovens Yoga — live personal classes" style="width:100%;height:100%;object-fit:contain;object-position:center top;display:block;padding:0 10px;background:#f5f3ef;max-height:calc(100vh - 64px);">
+    <img src="images/image_02.jpg" alt="Jovens Yoga — live personal classes" style="width:100%;height:100%;object-fit:contain;object-position:center top;display:block;padding:0 10px;background:#f5f3ef;">
   </div>
 </section>
 
@@ -361,7 +391,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
     <div class="prob-item">Gym classes where you are invisible</div>
   </div>
   <p class="prob-closer">And after a few weeks — you stop.<br><em>Not because yoga doesn't work. Because nobody notices when you don't show up.</em></p>
-  <div style="margin-top:32px;display:inline-block;background:rgba(157,196,168,0.15);border:1px solid #9dc4a8;border-radius:12px;padding:20px 32px;">
+  <div class="prob-callout" style="margin-top:32px;background:rgba(157,196,168,0.15);border:1px solid #9dc4a8;border-radius:12px;padding:20px 32px;">
     <p style="font-size:21px;color:#9dc4a8;font-family:var(--font-d);font-style:italic;margin:0">Consistency is the real struggle.</p>
     <p style="font-size:17px;color:rgba(255,255,255,.7);margin:8px 0 0;">Jovens solves exactly that — a real teacher who holds you accountable, every single class.</p>
   </div>
@@ -386,7 +416,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
       <div class="diff-note">Each session has only <strong>25–30 students.</strong> Small enough to feel personal. Structured enough to keep you consistent.</div>
     </div>
     <div class="diff-img">
-      <img src="images/image_03.jpg" alt="A teacher who truly sees you" style="width:100%;height:480px;object-fit:cover;object-position:center 10%;display:block;">
+      <img src="images/image_03.jpg" alt="A teacher who truly sees you" style="width:100%;height:100%;object-fit:cover;object-position:center 10%;display:block;">
     </div>
   </div>
 </section>
@@ -501,7 +531,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
 <section class="teacher-sec">
   <div class="teacher-inner">
     <div class="teacher-img">
-      <img src="images/image_07.jpg" alt="RYT 200 certified Jovens Yoga teacher" style="width:100%;height:480px;object-fit:cover;object-position:top center;display:block;">
+      <img src="images/image_07.jpg" alt="RYT 200 certified Jovens Yoga teacher" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;">
     </div>
     <div>
       <div class="sec-label">Your teacher</div>
@@ -703,7 +733,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
     <div class="sticky-price">From <span id="sticky-std">$29</span> <small>/mo</small></div>
     <div style="font-size:11px;color:var(--muted)">Standard · Premium · No contracts</div>
   </div>
-  <div style="font-size:13px;color:var(--sage);font-style:italic;text-align:center;font-weight:500;letter-spacing:0.01em;">Live yoga. Real teacher. Your name, remembered.</div>
+  <div style="font-size:13px;color:var(--sage);font-style:italic;text-align:center;font-weight:500;letter-spacing:0.01em;" class="sticky-tagline">Live yoga. Real teacher. Your name, remembered.</div>
   <div class="sticky-btns">
     <button onclick="openModal()" class="btn-sage" style="padding:10px 24px;font-size:14px">Reserve Free Trial</button>
   </div>
@@ -860,6 +890,9 @@ function detectTimezone() {
 }
 
 // ── APPLY COUNTRY ──
+function setText(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
+function setVal(id,v){const e=document.getElementById(id);if(e)e.value=v;}
+
 function applyCountry(country, tz) {
   detectedCountry = country;
   detectedTZ = tz || detectTimezone();
@@ -868,45 +901,41 @@ function applyCountry(country, tz) {
   const slots = SLOTS[detectedTZ] || SLOTS.CST;
   const tzLabel = detectedTZ;
 
-  // Hero and nav
-  document.getElementById("hero-badge").textContent = isCA ? "Live Online Yoga · Canada" : "Live Online Yoga · United States";
-    document.getElementById("nav-location").textContent = isCA ? "Live Online Yoga · Canada" : "Live Online Yoga · United States";
-  document.getElementById("hero-price").textContent = p.std + "/month";
-  document.getElementById("how-price").textContent = p.std + "/month";
+  // Nav / hero (safe — IDs may not exist)
+  setText("nav-location", isCA ? "Live Online Yoga · Canada" : "Live Online Yoga · United States");
+  setText("hero-badge",   isCA ? "Live Online Yoga · Canada" : "Live Online Yoga · United States");
+  setText("hero-price",   p.std + "/month");
+  setText("how-price",    p.std + "/month");
 
   // Pricing section
   ["std","prem"].forEach(t => {
-    document.getElementById("price-country-"+t).textContent = isCA ? "Canada" : "United States";
-    document.getElementById("price-amount-"+t).textContent = p[t];
+    setText("price-country-"+t, isCA ? "Canada" : "United States");
+    setText("price-amount-"+t,  p[t]);
   });
 
-  // Sticky
-  document.getElementById("sticky-std").textContent = p.std;
+  // Sticky / footer
+  setText("sticky-std",       p.std);
+  setText("final-price-std",  p.std);
 
-  // Final CTA
-  document.getElementById("final-price-std").textContent = p.std;
+  // Modal tab prices
+  setText("tab-std-price",    p.std);
+  setText("tab-prem-price",   p.prem);
+  setText("modal-price-foot", p[currentTier] + "/month");
 
-  // Tab prices
-  document.getElementById("tab-std-price").textContent = p.std;
-  document.getElementById("tab-prem-price").textContent = p.prem;
-  document.getElementById("modal-price-foot").textContent = p[currentTier] + "/month";
+  // Modal country / TZ fields
+  setText("m-country-show", isCA ? "🇨🇦 Canada" : "🇺🇸 United States");
+  setVal("m-country",  isCA ? "CA" : "US");
+  setText("m-tz-show", tzLabel);
+  setVal("m-tz",       tzLabel);
+  setVal("m-code",     "+1");
 
-  // Country / TZ in modal
-  document.getElementById("m-country-show").textContent = isCA ? "🇨🇦 Canada" : "🇺🇸 United States";
-  document.getElementById("m-country").value = isCA ? "CA" : "US";
-  document.getElementById("m-tz-show").textContent = tzLabel;
-  document.getElementById("m-tz").value = tzLabel;
-  document.getElementById("m-code").value = "+1";
+  // Slot section labels
+  setText("slots-sub",  `4 morning + 4 evening slots — all in ${tzLabel}.`);
+  setText("tz-label",   `Showing slots for your timezone: ${tzLabel}`);
+  setText("slots-note", `All times in ${tzLabel} · Mon–Sat · 60 minutes per session`);
 
-  // Slots sub
-  document.getElementById("slots-sub").textContent = `4 morning + 4 evening slots — all in ${tzLabel}.`;
-  document.getElementById("tz-label").textContent = `Showing slots for your timezone: ${tzLabel}`;
-  document.getElementById("slots-note").textContent = `All times in ${tzLabel} · Mon–Sat · 60 minutes per session`;
-
-  // Page slot chips
+  // Render slots — this must always run
   renderPageSlots(slots);
-
-  // Modal slots
   renderModalSlots(slots);
 }
 
