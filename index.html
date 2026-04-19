@@ -250,15 +250,15 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
 /* RESPONSIVE */
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;height:auto}
-  .hero-img{height:52vw;min-height:200px;max-height:300px}
+  .hero-img{height:40vw;min-height:160px;max-height:220px}
   .hero-content{padding:36px 6%}
   .hero-sub{max-width:100%;font-size:16px}
   .steps{grid-template-columns:1fr 1fr;gap:20px}
   .diff-grid{grid-template-columns:1fr}
-  .diff-img{aspect-ratio:16/9}
+  .diff-img{height:280px}
   .diff-img .img-ph{min-height:200px}
   .teacher-inner{grid-template-columns:1fr;gap:28px}
-  .teacher-img{aspect-ratio:16/9}
+  .teacher-img{height:260px}
   .teacher-img .img-ph{min-height:200px}
   .pricing-grid{grid-template-columns:1fr;max-width:100%}
   section{padding:60px 6%}
@@ -273,7 +273,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
   #modal-box{padding:28px}
 }
 @media(max-width:600px){
-  .hero-img{height:52vw;min-height:180px;max-height:260px}
+  .hero-img{height:40vw;min-height:150px;max-height:210px}
   .steps{grid-template-columns:1fr}
   .form-row{grid-template-columns:1fr}
   .form-row3{grid-template-columns:1fr}
@@ -347,7 +347,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
     </div>
   </div>
     <div class="hero-img" >
-    <img src="images/image_02.jpg" alt="Jovens Yoga — live personal classes" style="width:100%;height:100%;object-fit:contain;object-position:center top;display:block;padding:0 10px;background:#f5f3ef;max-height:calc(100vh - 64px);">
+    <img src="images/image_02.jpg" alt="Jovens Yoga — live personal classes" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;background:#f5f3ef;">
   </div>
 </section>
 
@@ -386,7 +386,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
       <div class="diff-note">Each session has only <strong>25–30 students.</strong> Small enough to feel personal. Structured enough to keep you consistent.</div>
     </div>
     <div class="diff-img">
-      <img src="images/image_03.jpg" alt="A teacher who truly sees you" style="width:100%;height:480px;object-fit:cover;object-position:center 10%;display:block;">
+      <img src="images/image_03.jpg" alt="A teacher who truly sees you" style="width:100%;height:100%;object-fit:cover;object-position:center 10%;display:block;">
     </div>
   </div>
 </section>
@@ -501,7 +501,7 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
 <section class="teacher-sec">
   <div class="teacher-inner">
     <div class="teacher-img">
-      <img src="images/image_07.jpg" alt="RYT 200 certified Jovens Yoga teacher" style="width:100%;height:480px;object-fit:cover;object-position:top center;display:block;">
+      <img src="images/image_07.jpg" alt="RYT 200 certified Jovens Yoga teacher" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;">
     </div>
     <div>
       <div class="sec-label">Your teacher</div>
@@ -869,9 +869,7 @@ function applyCountry(country, tz) {
   const tzLabel = detectedTZ;
 
   // Hero and nav
-  document.getElementById("hero-badge").textContent = isCA ? "Live Online Yoga · Canada" : "Live Online Yoga · United States";
-    document.getElementById("nav-location").textContent = isCA ? "Live Online Yoga · Canada" : "Live Online Yoga · United States";
-  document.getElementById("hero-price").textContent = p.std + "/month";
+  document.getElementById("nav-location").textContent = isCA ? "Live Online Yoga \u00b7 Canada" : "Live Online Yoga \u00b7 United States";
   document.getElementById("how-price").textContent = p.std + "/month";
 
   // Pricing section
@@ -883,8 +881,7 @@ function applyCountry(country, tz) {
   // Sticky
   document.getElementById("sticky-std").textContent = p.std;
 
-  // Final CTA
-  document.getElementById("final-price-std").textContent = p.std;
+  // Final CTA — no price element in this section
 
   // Tab prices
   document.getElementById("tab-std-price").textContent = p.std;
