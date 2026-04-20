@@ -273,9 +273,10 @@ footer{background:var(--dark);color:rgba(255,255,255,.5);padding:28px 8%;display
   #modal-box{padding:28px}
 }
 @media(max-width:600px){
-  .hero-img{height:56vw;min-height:200px;max-height:260px}
-  .hero-img img{object-position:center 20% !important}
-  .teacher-img img{object-position:center 12% !important}
+  .hero-img{height:auto;min-height:unset;max-height:none;aspect-ratio:1/1}
+  .hero-img img{object-position:center center !important}
+  .teacher-img{height:auto;aspect-ratio:3/4}
+  .teacher-img img{object-position:center 8% !important}
   .steps{grid-template-columns:1fr}
   .form-row{grid-template-columns:1fr}
   .form-row3{grid-template-columns:1fr}
